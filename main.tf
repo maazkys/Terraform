@@ -81,6 +81,7 @@ module "storage" {
   subnet_id            = module.network.subnet_ids["snet-pe"]
   tags = {
     project     = "zero-trust-terraform"
+    pipeline = "true"
     environment = var.environment
   }
 }

@@ -1,0 +1,21 @@
+name: Terraform Destroy (Manual)
+
+on:
+  workflow_dispatch:   # manual trigger only — deliberately NOT a cron schedule against a live subscription
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+jobs:
+  destroy:
+    name: Terraform Destroy
+    runs-on: ubuntu-latest
+    environment: production   # same approval gate as apply — destroy is never automatic
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform init
+      - run: terraform destroy -auto-approve

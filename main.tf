@@ -62,14 +62,12 @@ module "network" {
 }
 
 module "keyvault" {
-  source               = "./modules/keyvault"
-  resource_group_name  = module.identity.resource_group_name
-  location             = module.identity.location
-  name                  = "kv${var.prefix}${var.environment}${random_string.suffix.result}"
-  tags = {
-    project     = "zero-trust-terraform"
-    environment = var.environment
-  }
+  source                     = "./modules/keyvault"
+  resource_group_name        = module.identity.resource_group_name
+  location                   = module.identity.location
+  name                        = "kv${var.prefix}${var.environment}${random_string.suffix.result}"
+  key_vault_admin_object_id  = "d9b1c3be-9cc4-4e8d-9302-e6976a3da188"
+  tags = { project = "zero-trust-terraform", environment = var.environment }
 }
 
 module "storage" {

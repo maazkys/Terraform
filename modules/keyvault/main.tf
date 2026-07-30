@@ -8,7 +8,7 @@ resource "azurerm_key_vault" "this" {
   sku_name                   = "standard"
 
   # RBAC mode — no access_policy blocks, matches Week 5's hardening pattern
-  enable_rbac_authorization  = true
+  rbac_authorization_enabled  = true
   purge_protection_enabled   = false   # false for a demo/training env; true in real prod
   soft_delete_retention_days = 7
 
@@ -19,5 +19,5 @@ resource "azurerm_key_vault" "this" {
 resource "azurerm_role_assignment" "deployer_admin" {
   scope                = azurerm_key_vault.this.id
   role_definition_name = "Key Vault Administrator"
-  principal_id          = data.azurerm_client_config.current.object_id
+  principal_id          = var.key_vault_admin_object_id
 }
